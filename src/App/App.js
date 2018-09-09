@@ -1,6 +1,7 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
 
+import PopupBox from '../components/popup';
 import renderSuggestion from '../components/RenderSuggestion';
 import suggestionsHelpers from '../helpers/suggestions';
 
@@ -39,7 +40,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { value, suggestions } = this.state;
+    const { value, showPopup, suggestions } = this.state;
     const inputProps = {
       placeholder: 'Type to Start Searching',
       value,
@@ -63,6 +64,12 @@ class App extends React.Component {
             SEARCH
           </button>
         </div>
+        {showPopup
+          ? (
+            <PopupBox value={value} />
+          )
+          : null
+        }
       </div>
     );
   }
