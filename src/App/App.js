@@ -1,10 +1,68 @@
 import React from 'react';
+import Autosuggest from 'react-autosuggest';
+
+import renderSuggestion from '../components/RenderSuggestion';
+import suggestionsHelpers from '../helpers/suggestions';
+
+const { getSuggestions, getSuggestionValue } = suggestionsHelpers;
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: '',
+      suggestions: [],
+    };
+  }
+
+  onSuggestionsFetchRequested = ({ value }) => {
+    this.setState({
+      suggestions: getSuggestions(value),
+    });
+  }
+
+  onSuggestionsClearRequested = () => {
+    this.setState({
+      suggestions: [],
+    });
+  }
+
+  openPopup = () => {
+    this.setState(() => ({ showPopup: true }));
+  }
+
+  handleChange = (e, { newValue }) => {
+    this.setState(() => ({
+      value: newValue,
+    }));
+    this.setState(() => ({ showPopup: false }));
+  }
+
   render() {
+    const { value, suggestions } = this.state;
+    const inputProps = {
+      placeholder: 'Type to Start Searching',
+      value,
+      onChange: this.handleChange,
+    };
     return (
       <div className="root-container">
-        Search
+        <div className="toolbar">
+          <Autosuggest
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+            getSuggestionValue={getSuggestionValue}
+            renderSuggestion={renderSuggestion}
+            inputProps={inputProps}
+            onSuggestionSelected={this.openPopup}
+          />
+          <button type="button" className="search-button">
+            <i className="fa fa-search" />
+            {' '}
+            SEARCH
+          </button>
+        </div>
       </div>
     );
   }
