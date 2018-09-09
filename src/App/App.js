@@ -1,6 +1,7 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
 
+import './index.css';
 import PopupBox from '../components/popup';
 import renderSuggestion from '../components/RenderSuggestion';
 import suggestionsHelpers from '../helpers/suggestions';
